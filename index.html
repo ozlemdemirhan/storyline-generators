@@ -25,6 +25,15 @@
   <label for="speed">Typing Speed (ms per character)</label>
   <input type="number" id="speed" value="50" />
 
+  <label for="fontFamily">Font Family</label>
+  <input type="text" id="fontFamily" placeholder="e.g., Arial" />
+
+  <label for="fontSize">Font Size (e.g., 16px)</label>
+  <input type="text" id="fontSize" placeholder="e.g., 16px" />
+
+  <label for="fontColor">Font Color (name or hex)</label>
+  <input type="text" id="fontColor" placeholder="e.g., #000000 or black" />
+
   <button id="generateBtn">Generate Code</button>
   <pre id="output"></pre>
   <button id="copyBtn">Copy to Clipboard</button>
@@ -34,7 +43,7 @@
       return str.replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;")
-                .replace(/\"/g, "&quot;")
+                .replace(/"/g, "&quot;")
                 .replace(/'/g, "&#039;");
     }
 
@@ -42,21 +51,25 @@
       const objectId = document.getElementById('objectId').value.trim();
       const displayText = document.getElementById('displayText').value;
       const speed = document.getElementById('speed').value;
+      const fontFamily = document.getElementById('fontFamily').value;
+      const fontSize = document.getElementById('fontSize').value;
+      const fontColor = document.getElementById('fontColor').value;
 
       const jsCode = `
 const targetId = "${objectId}";
 const fullText = ${JSON.stringify(displayText)};
 const typingSpeed = ${speed};
 
-const el = document.querySelector(\`[data-acc-text="${objectId}"]\`);
+const el = document.querySelector(`[data-acc-text="${objectId}"]`);
 if (el) {
-  const computedStyle = window.getComputedStyle(el);
-  const span = document.createElement("span");
-  span.style.fontFamily = computedStyle.fontFamily;
-  span.style.fontSize = computedStyle.fontSize;
-  span.style.color = computedStyle.color;
-
   el.innerHTML = "";
+  const span = document.createElement("span");
+  span.style.fontFamily = "${fontFamily}";
+  span.style.fontSize = "${fontSize}";
+  span.style.color = "${fontColor}";
+  span.style.whiteSpace = "pre-wrap";
+  span.style.display = "inline-block";
+  span.style.width = "100%";
   el.appendChild(span);
 
   let i = 0;
