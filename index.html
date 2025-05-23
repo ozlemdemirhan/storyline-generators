@@ -68,26 +68,25 @@
   <pre id="output"></pre>
   <button id="copyBtn">Copy to Clipboard</button>
 
-  <script>
-    function escapeHTML(str) {
-      return str.replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/\"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-    }
+<script>
+  function escapeHTML(str) {
+    return str.replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/\"/g, "&quot;")
+              .replace(/'/g, "&#039;");
+  }
 
-    document.getElementById('generateBtn').addEventListener('click', function () {
-      const objectId = document.getElementById('objectId').value.trim();
-      const displayText = document.getElementById('displayText').value;
-      const speed = document.getElementById('speed').value;
-      const fontFamily = document.getElementById('fontFamily').value;
-      const fontSize = document.getElementById('fontSize').value;
-      const fontColor = document.getElementById('fontColor').value;
+  document.getElementById('generateBtn').addEventListener('click', function () {
+    const objectId = document.getElementById('objectId').value.trim();
+    const displayText = JSON.stringify(document.getElementById('displayText').value);
+    const speed = document.getElementById('speed').value;
+    const fontFamily = document.getElementById('fontFamily').value;
+    const fontSize = document.getElementById('fontSize').value;
+    const fontColor = document.getElementById('fontColor').value;
 
-      const jsCode = `
-const targetId = "${objectId}";
-const fullText = ${JSON.stringify(displayText)};
+    const jsCode = `const targetId = "${objectId}";
+const fullText = ${displayText};
 const typingSpeed = ${speed};
 
 const el = document.querySelector(\`[data-acc-text="${objectId}"]\`);
@@ -111,20 +110,19 @@ if (el) {
       clearInterval(typer);
     }
   }, typingSpeed);
-}
-`;
+}`
 
-      document.getElementById('output').innerHTML = escapeHTML(jsCode);
-    });
+    document.getElementById('output').innerHTML = escapeHTML(jsCode);
+  });
 
-    document.getElementById('copyBtn').addEventListener('click', function () {
-      const text = document.getElementById("output").innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        alert("Code copied to clipboard!");
-      }, (err) => {
-        alert("Failed to copy: " + err);
-      });
+  document.getElementById('copyBtn').addEventListener('click', function () {
+    const text = document.getElementById("output").innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Code copied to clipboard!");
+    }, (err) => {
+      alert("Failed to copy: " + err);
     });
-  </script>
+  });
+</script>
 </body>
 </html>
