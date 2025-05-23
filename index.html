@@ -30,7 +30,7 @@
   <button id="copyBtn">Copy to Clipboard</button>
 
   <script>
-    document.getElementById('generateBtn').addEventListener('click', function generateCode() {
+    document.getElementById('generateBtn').addEventListener('click', function () {
       const objectId = document.getElementById('objectId').value.trim();
       const displayText = document.getElementById('displayText').value;
       const speed = document.getElementById('speed').value;
@@ -40,7 +40,7 @@
       document.getElementById('output').textContent = code;
     });
 
-    document.getElementById('copyBtn').addEventListener('click', function copyToClipboard() {
+    document.getElementById('copyBtn').addEventListener('click', function () {
       const output = document.getElementById("output").textContent;
       navigator.clipboard.writeText(output).then(() => {
         alert("Code copied to clipboard!");
