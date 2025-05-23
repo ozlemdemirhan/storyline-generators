@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Typewriter Generator for Storyline</title>
+  <style>
+    body { font-family: sans-serif; padding: 2em; max-width: 700px; margin: auto; }
+    label { display: block; margin-top: 1em; font-weight: bold; }
+    input, textarea { width: 100%; padding: 0.5em; margin-top: 0.5em; }
+    button { margin-top: 1.5em; padding: 0.75em 1.5em; font-size: 1em; cursor: pointer; }
+    pre { background: #f4f4f4; padding: 1em; margin-top: 1.5em; white-space: pre-wrap; word-wrap: break-word; }
+    #copyBtn { margin-top: 1em; background-color: #3cf5c6; border: none; color: black; }
+  </style>
+</head>
+<body>
+  <h1>Typewriter Effect Generator for Storyline</h1>
+  <label for="objectId">Object ID (Alt Text)</label>
+  <input type="text" id="objectId" placeholder="e.g., TextBox1" />
+
+  <label for="displayText">Text to Display</label>
+  <textarea id="displayText" rows="4" placeholder="Enter the text that should appear in typewriter effect"></textarea>
+
+  <label for="speed">Typing Speed (ms per character)</label>
+  <input type="number" id="speed" value="50" />
+
+  <button onclick="generateCode()">Generate Code</button>
+  <pre id="output"></pre>
+  <button id="copyBtn" onclick="copyToClipboard()">Copy to Clipboard</button>
+
+  <script>
+    function generateCode() {
+      const objectId = document.getElementById('objectId').value.trim();
+      const displayText = document.getElementById('displayText').value;
+      const speed = document.getElementById('speed').value;
+
+      const code = `const targetId = "${objectId}";
+const fullText = ${JSON.stringify(displayText)};
+const typingSpeed = ${speed};
+
+const el = document.querySelector(`[data-acc-text="${objectId}"]`);
+if (el) {
+  el.innerHTML = "";
+  let i = 0;
+  const typer = setInterval(() => {
+    if (i < fullText.length) {
+      el.innerHTML += fullText.charAt(i);
+      i++;
+    } else {
+      clearInterval(typer);
+    }
+  }, typingSpeed);
+}`;
+
+      document.getElementById('output').textContent = code;
+    }
+
+    function copyToClipboard() {
+      const output = document.getElementById("output").textContent;
+      navigator.clipboard.writeText(output).then(() => {
+        alert("Code copied to clipboard!");
+      }, (err) => {
+        alert("Failed to copy: " + err);
+      });
+    }
+  </script>
+</body>
+</html>
