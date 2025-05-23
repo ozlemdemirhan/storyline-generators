@@ -15,6 +15,7 @@
 </head>
 <body>
   <h1>Typewriter Effect Generator for Storyline</h1>
+
   <label for="objectId">Object ID (Alt Text)</label>
   <input type="text" id="objectId" placeholder="e.g., TextBox1" />
 
@@ -24,45 +25,29 @@
   <label for="speed">Typing Speed (ms per character)</label>
   <input type="number" id="speed" value="50" />
 
-  <button onclick="generateCode()">Generate Code</button>
+  <button id="generateBtn">Generate Code</button>
   <pre id="output"></pre>
-  <button id="copyBtn" onclick="copyToClipboard()">Copy to Clipboard</button>
+  <button id="copyBtn">Copy to Clipboard</button>
 
   <script>
-    function generateCode() {
+    document.getElementById('generateBtn').addEventListener('click', function generateCode() {
       const objectId = document.getElementById('objectId').value.trim();
       const displayText = document.getElementById('displayText').value;
       const speed = document.getElementById('speed').value;
 
-      const code = `const targetId = "${objectId}";
-const fullText = ${JSON.stringify(displayText)};
-const typingSpeed = ${speed};
-
-const el = document.querySelector(`[data-acc-text="${objectId}"]`);
-if (el) {
-  el.innerHTML = "";
-  let i = 0;
-  const typer = setInterval(() => {
-    if (i < fullText.length) {
-      el.innerHTML += fullText.charAt(i);
-      i++;
-    } else {
-      clearInterval(typer);
-    }
-  }, typingSpeed);
-}`;
+      const code = `const targetId = "${objectId}";\nconst fullText = ${JSON.stringify(displayText)};\nconst typingSpeed = ${speed};\n\nconst el = document.querySelector(\`[data-acc-text="${objectId}"]\`);\nif (el) {\n  el.innerHTML = "";\n  let i = 0;\n  const typer = setInterval(() => {\n    if (i < fullText.length) {\n      el.innerHTML += fullText.charAt(i);\n      i++;\n    } else {\n      clearInterval(typer);\n    }\n  }, typingSpeed);\n}`;
 
       document.getElementById('output').textContent = code;
-    }
+    });
 
-    function copyToClipboard() {
+    document.getElementById('copyBtn').addEventListener('click', function copyToClipboard() {
       const output = document.getElementById("output").textContent;
       navigator.clipboard.writeText(output).then(() => {
         alert("Code copied to clipboard!");
       }, (err) => {
         alert("Failed to copy: " + err);
       });
-    }
+    });
   </script>
 </body>
 </html>
