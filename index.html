@@ -29,21 +29,21 @@
   <pre id="output"></pre>
   <button id="copyBtn">Copy to Clipboard</button>
 
-<script>
-  function escapeForHtml(str) {
-    return str.replace(/&/g, "&amp;")
-              .replace(/</g, "&lt;")
-              .replace(/>/g, "&gt;")
-              .replace(/"/g, "&quot;")
-              .replace(/'/g, "&#039;");
-  }
+  <script>
+    function escapeHTML(str) {
+      return str.replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/\"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+    }
 
-  document.getElementById('generateBtn').addEventListener('click', function () {
-    const objectId = document.getElementById('objectId').value.trim();
-    const displayText = document.getElementById('displayText').value;
-    const speed = document.getElementById('speed').value;
+    document.getElementById('generateBtn').addEventListener('click', function () {
+      const objectId = document.getElementById('objectId').value.trim();
+      const displayText = document.getElementById('displayText').value;
+      const speed = document.getElementById('speed').value;
 
-    const rawCode = `
+      const jsCode = `
 const targetId = "${objectId}";
 const fullText = ${JSON.stringify(displayText)};
 const typingSpeed = ${speed};
@@ -68,20 +68,19 @@ if (el) {
       clearInterval(typer);
     }
   }, typingSpeed);
-}
-`;
+}`;
 
-    document.getElementById('output').innerHTML = escapeForHtml(rawCode);
-  });
-
-  document.getElementById('copyBtn').addEventListener('click', function () {
-    const text = document.getElementById("output").innerText;
-    navigator.clipboard.writeText(text).then(() => {
-      alert("Code copied to clipboard!");
-    }, (err) => {
-      alert("Failed to copy: " + err);
+      document.getElementById('output').innerHTML = escapeHTML(jsCode);
     });
-  });
-</script>
+
+    document.getElementById('copyBtn').addEventListener('click', function () {
+      const text = document.getElementById("output").innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Code copied to clipboard!");
+      }, (err) => {
+        alert("Failed to copy: " + err);
+      });
+    });
+  </script>
 </body>
 </html>
