@@ -35,7 +35,31 @@
       const displayText = document.getElementById('displayText').value;
       const speed = document.getElementById('speed').value;
 
-      const code = `const targetId = "${objectId}";\nconst fullText = ${JSON.stringify(displayText)};\nconst typingSpeed = ${speed};\n\nconst el = document.querySelector(\`[data-acc-text="${objectId}"]\`);\nif (el) {\n  el.innerHTML = "";\n  let i = 0;\n  const typer = setInterval(() => {\n    if (i < fullText.length) {\n      el.innerHTML += fullText.charAt(i);\n      i++;\n    } else {\n      clearInterval(typer);\n    }\n  }, typingSpeed);\n}`;
+      const code = `const targetId = "${objectId}";
+const fullText = ${JSON.stringify(displayText)};
+const typingSpeed = ${speed};
+
+const el = document.querySelector(`[data-acc-text="${objectId}"]`);
+if (el) {
+  const computedStyle = window.getComputedStyle(el);
+  const span = document.createElement("span");
+  span.style.fontFamily = computedStyle.fontFamily;
+  span.style.fontSize = computedStyle.fontSize;
+  span.style.color = computedStyle.color;
+
+  el.innerHTML = "";
+  el.appendChild(span);
+
+  let i = 0;
+  const typer = setInterval(() => {
+    if (i < fullText.length) {
+      span.textContent += fullText.charAt(i);
+      i++;
+    } else {
+      clearInterval(typer);
+    }
+  }, typingSpeed);
+}`;
 
       document.getElementById('output').textContent = code;
     });
