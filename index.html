@@ -5,12 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Typewriter Generator for Storyline</title>
   <style>
-    body { font-family: sans-serif; padding: 2em; max-width: 700px; margin: auto; }
-    label { display: block; margin-top: 1em; font-weight: bold; }
-    input, textarea { width: 100%; padding: 0.5em; margin-top: 0.5em; }
-    button { margin-top: 1.5em; padding: 0.75em 1.5em; font-size: 1em; cursor: pointer; }
-    pre { background: #f4f4f4; padding: 1em; margin-top: 1.5em; white-space: pre-wrap; word-wrap: break-word; }
-    #copyBtn { margin-top: 1em; background-color: #3cf5c6; border: none; color: black; }
+    body {
+      font-family: sans-serif;
+      padding: 2em;
+      max-width: 700px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 1em;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.5em;
+      margin-top: 0.5em;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 1.5em;
+      padding: 0.75em 1.5em;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 1em;
+      margin-top: 1.5em;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    #copyBtn {
+      margin-top: 1em;
+      background-color: #3cf5c6;
+      border: none;
+      color: black;
+    }
   </style>
 </head>
 <body>
@@ -28,10 +58,10 @@
   <label for="fontFamily">Font Family</label>
   <input type="text" id="fontFamily" placeholder="e.g., Arial" />
 
-  <label for="fontSize">Font Size (e.g., 16px)</label>
+  <label for="fontSize">Font Size</label>
   <input type="text" id="fontSize" placeholder="e.g., 16px" />
 
-  <label for="fontColor">Font Color (name or hex)</label>
+  <label for="fontColor">Font Color</label>
   <input type="text" id="fontColor" placeholder="e.g., #000000 or black" />
 
   <button id="generateBtn">Generate Code</button>
@@ -43,7 +73,7 @@
       return str.replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
+                .replace(/\"/g, "&quot;")
                 .replace(/'/g, "&#039;");
     }
 
@@ -60,7 +90,7 @@ const targetId = "${objectId}";
 const fullText = ${JSON.stringify(displayText)};
 const typingSpeed = ${speed};
 
-const el = document.querySelector(`[data-acc-text="${objectId}"]`);
+const el = document.querySelector(\`[data-acc-text="${objectId}"]\`);
 if (el) {
   el.innerHTML = "";
   const span = document.createElement("span");
@@ -81,7 +111,8 @@ if (el) {
       clearInterval(typer);
     }
   }, typingSpeed);
-}`;
+}
+`;
 
       document.getElementById('output').innerHTML = escapeHTML(jsCode);
     });
